@@ -1,3 +1,4 @@
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -8,6 +9,7 @@ import javax.swing.BoxLayout;
 import java.awt.CardLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+
 import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.Color;
@@ -36,6 +38,7 @@ public class Login extends JFrame {
 	private JPasswordField inputSenha;
 	private Registro registro;
 	private UsuarioDAO usuarioDAO;
+	private Dashboard dashboard;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -43,7 +46,6 @@ public class Login extends JFrame {
 				try {
 					Login window = new Login();
 					window.frmDevence.setVisible(true);
-
 					window.usuarioDAO.testarConexao();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -131,9 +133,9 @@ public class Login extends JFrame {
 				String password = new String(inputSenha.getPassword());
 
 				if (usuarioDAO.validarUsuario(username, password)) {
-					JOptionPane.showMessageDialog(null, "Login bem-sucedido!");
 					inputUsuario.setText(null);
 					inputSenha.setText(null);
+					abrirDashboard();
 				} else {
 					JOptionPane.showMessageDialog(null, "Usuário ou senha inválidos", "ERRO",
 							JOptionPane.ERROR_MESSAGE);
@@ -169,6 +171,12 @@ public class Login extends JFrame {
 	private void abrirTelaRegistro() {
 		frmDevence.dispose();
 		registro = new Registro();
+	}
+
+	private void abrirDashboard() {
+		frmDevence.dispose();
+		dashboard = new Dashboard(usuarioDAO);
+
 	}
 
 }

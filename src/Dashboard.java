@@ -28,15 +28,15 @@ import javax.swing.JSeparator;
 public class Dashboard {
 
 	private JFrame frame;
+	private UsuarioDAO usuarioDAO;
+	private String nomeUsuarioLogado = "";
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Dashboard window = new Dashboard();
+					UsuarioDAO usuarioDAO = new UsuarioDAO();
+					Dashboard window = new Dashboard(usuarioDAO);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -45,10 +45,11 @@ public class Dashboard {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
-	public Dashboard() {
+	public Dashboard(UsuarioDAO usuarioDAO) {
+		this.usuarioDAO = usuarioDAO;
+		if (usuarioDAO != null) {
+			this.nomeUsuarioLogado = usuarioDAO.getNomeUsuarioLogado();
+		}
 		initialize();
 	}
 
@@ -87,8 +88,9 @@ public class Dashboard {
 		lblInicio.setFont(new Font("Roboto", Font.PLAIN, 18));
 		lblInicio.setBounds(0, 144, 172, 21);
 		sidebar.add(lblInicio);
-		
+
 		JSeparator separator = new JSeparator();
+		separator.setForeground(Color.GRAY);
 		separator.setBounds(0, 131, 192, 2);
 		sidebar.add(separator);
 
@@ -112,6 +114,11 @@ public class Dashboard {
 		lblLogo.setIcon(new ImageIcon(Dashboard.class.getResource("/Img/miniLogo.png")));
 		lblLogo.setBounds(506, 0, 58, 47);
 		topbar.add(lblLogo);
+
+		JLabel bemVindoUsuario = new JLabel("Olá, " + usuarioDAO.getNomeUsuarioLogado() + "!");
+		bemVindoUsuario.setFont(new Font("Roboto", Font.PLAIN, 14));
+		bemVindoUsuario.setBounds(925, 15, 138, 14);
+		topbar.add(bemVindoUsuario);
 
 		lblLogo.addMouseListener(new MouseAdapter() {
 			@Override

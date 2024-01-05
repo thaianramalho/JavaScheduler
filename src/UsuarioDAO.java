@@ -9,6 +9,15 @@ public class UsuarioDAO {
 	private static final String URL = "jdbc:mysql://localhost:3306/loginsystem";
 	private static final String USUARIO = "root";
 	private static final String SENHA = "";
+	private String nomeUsuarioLogado = "";
+
+	public String getNomeUsuarioLogado() {
+		return nomeUsuarioLogado;
+	}
+
+	public void setNomeUsuarioLogado(String nomeUsuarioLogado) {
+		this.nomeUsuarioLogado = nomeUsuarioLogado;
+	}
 
 	private boolean usuarioExiste(String usuario, Connection connection) throws SQLException {
 		String sql = "SELECT * FROM users WHERE usuario = ?";
@@ -62,6 +71,10 @@ public class UsuarioDAO {
 
 			ResultSet resultSet = statement.executeQuery();
 			boolean isValid = resultSet.next();
+
+			if (isValid) {
+				nomeUsuarioLogado = resultSet.getString("usuario");
+			}
 
 			connection.close();
 
